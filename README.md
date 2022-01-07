@@ -14,3 +14,7 @@ Clone the repo to your Jai libary as `Subprocess`. Then:
 And use the functionality therein.
 
 
+## License
+
+Released into the public domain. Attribution would be appreciated.
+
