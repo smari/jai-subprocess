@@ -188,5 +188,6 @@ subprocess_run_and_return_output :: (command: []string) -> int, string, string {
 string_array_to_ppu8 :: (array: []string) -> **u8 {
     params : **u8 = alloc((array.count+1) * size_of(*u8));
     for array params[it_index] = to_c_string(it);
+    params[array.count] = null;
     return params;
 }
