@@ -52,7 +52,7 @@ subprocess_run :: (command: []string, input: string = "") -> *Subprocess {
 
         params := string_array_to_ppu8(command);
         returnvalue := execvp(to_c_string(command[0]), params);
-        print("Child exiting - execvp failed with %\n", errno());
+        print("Child exiting - execvp failed with %. Command was %\n", errno(), command);
         exit(returnvalue);
     } else {
         // error forking child process
