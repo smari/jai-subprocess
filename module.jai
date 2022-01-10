@@ -161,6 +161,29 @@ subprocess_await_exit :: (s: *Subprocess) {
 }
 
 
+subprocess_run_and_return_output :: (command: []string) -> int, string, string {
+    // We will return return value and output from STDOUT and STDERR
+    stdout, stderr : String_Builder;
+
+    s := subprocess_run(command);
+    subprocess_await_exit(s);
+    defer free(s);
+
+    while true {
+        out, err := subprocess_read_stdout(s, maxbytes=10000);
+        if out.count == 0 break;
+        append(*stdout, out);
+    }
+    while true {
+        out, err := subprocess_read_stderr(s, maxbytes=10000);
+        if out.count == 0 break;
+        append(*stderr, out);
+    }
+
+    return s.returnvalue, builder_to_string(*stdout), builder_to_string(*stderr);
+}
+
+
 // This should probably exist in the standard library somehow.
 string_array_to_ppu8 :: (array: []string) -> **u8 {
     params : **u8 = alloc((array.count+1) * size_of(*u8));
